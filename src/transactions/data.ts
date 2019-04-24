@@ -1,7 +1,7 @@
 import { TYPES } from '../constants';
 import { DATA_FIELD_TYPE, IDataTransaction, TDataTransactionEntry } from '@waves/ts-types';
 import { factory } from '../core/factory';
-import { TLong } from '../types';
+import { TLong, TWithPartialFee } from '../types';
 import { getDefaultTransform, IDefaultGuiTx } from './general';
 import { getCoins, map, pipe, prop } from '../utils';
 
@@ -23,7 +23,7 @@ const remapDataEntryItem = (item: TWavesGuiDataTransactionEntry): TDataTransacti
     value: parseValueByType(item)
 }) as TDataTransactionEntry<string>;
 
-export const data = factory<IWavesGuiData, IDataTransaction<string>>({
+export const data = factory<IWavesGuiData, TWithPartialFee<IDataTransaction<string>>>({
     ...getDefaultTransform(),
     data: pipe(prop('data'), map(remapDataEntryItem))
 });

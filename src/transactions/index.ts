@@ -13,6 +13,7 @@ import { sponsorship, IWavesGuiSponsorship } from './sponsorship';
 import { transfer, IWavesGuiTransfer } from './transfer';
 import { TTransaction } from '@waves/ts-types';
 import { TYPES } from '../constants';
+import { TWithPartialFee } from '../types';
 
 
 export const node = {
@@ -39,7 +40,7 @@ export {
     IWavesGuiTransfer,
 };
 
-export const toNode = (item: TWavesGuiEntity): TTransaction<string> => {
+export const toNode = (item: TWavesGuiEntity): TWithPartialFee<TTransaction<string>> => {
     switch (item.type) {
         case TYPES.ISSUE:
             return issue(item);

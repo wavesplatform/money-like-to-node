@@ -3,9 +3,10 @@ import { ICancelLeaseTransaction } from '@waves/ts-types';
 import { factory } from '../core/factory';
 import { getDefaultTransform, IDefaultGuiTx } from './general';
 import { prop } from '../utils';
+import { TWithPartialFee } from '../types';
 
 
-export const cancelLease = factory<IWavesGuiCancelLease, ICancelLeaseTransaction<string>>({
+export const cancelLease = factory<IWavesGuiCancelLease, TWithPartialFee<ICancelLeaseTransaction<string>>>({
     ...getDefaultTransform(),
     leaseId: prop('leaseId')
 });

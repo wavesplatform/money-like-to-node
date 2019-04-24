@@ -1,24 +1,28 @@
 import { TYPES } from '../constants';
 import { IMassTransferItem, IMassTransferTransaction } from '@waves/ts-types';
 import { factory } from '../core/factory';
-import { TMoney } from '../types';
+import { TMoney, TWithPartialFee } from '../types';
 import { getDefaultTransform, IDefaultGuiTx } from './general';
-import { emptyError, getAssetId, getCoins, head, map, pipe, prop } from '../utils';
+import { getAssetId, getCoins, map, pipe, prop } from '../utils';
 
 
 const remapTransferItem = factory<IWavesGuiMassTransferItem, IMassTransferItem<string>>({
     recipient: prop('recipient'),
-    amount: pipe(prop('amount'), getCoins)
+    amount: pipe<IWavesGuiMassTransferItem, TMoney, string>(prop('amount'), getCoins)
 });
 
-export const massTransfer = factory<IWavesGuiMassTransfer, IMassTransferTransaction<string>>({
+export const massTransfer = factory<IWavesGuiMassTransfer, TWithPartialFee<IMassTransferTransaction<string>>>({
     ...getDefaultTransform(),
     transfers: pipe(prop('transfers'), map(remapTransferItem)),
-    assetId: pipe<IWavesGuiMassTransfer, Array<IWavesGuiMassTransferItem>, IWavesGuiMassTransferItem | undefined, TMoney | null, TMoney, string>(
+    assetId: pipe<IWavesGuiMassTransfer, Array<IWavesGuiMassTransferItem>, IWavesGuiMassTransferItem, TMoney, string>(
         prop('transfers'),
-        head,
+        (list: Array<IWavesGuiMassTransferItem>): IWavesGuiMassTransferItem => {
+            if (!list.length) {
+                throw new Error('MassTransfer transaction must have one transfer!')
+            }
+            return list[0];
+        },
         prop('amount'),
-        emptyError('MassTransfer transaction must have one transfer!'),
         getAssetId
     ),
     attachment: prop('attachment')
