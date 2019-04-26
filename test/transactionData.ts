@@ -32,7 +32,7 @@ export const BTC_ASSET = new Asset({
     height: 257457
 });
 
-export const TEST_DATA = [
+export const TEST_DATA: Array<ITestData> = [
     {
         gui: {
             type: TYPES.ISSUE,
@@ -164,7 +164,342 @@ export const TEST_DATA = [
             reissuable: true,
             fee: null
         }
-    } as ITestData
+    } as ITestData,
+    {
+        gui: {
+            type: TYPES.BURN,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            quantity: {
+                coins: '10000',
+                assetId: BTC_ASSET.id
+            }
+        },
+        node: {
+            type: TYPES.BURN,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            assetId: BTC_ASSET.id,
+            quantity: '10000',
+            fee: null
+        }
+    } as ITestData,
+    {
+        gui: {
+            type: TYPES.EXCHANGE,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            buyOrder: {
+                version: 1,
+                matcherPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9e',
+                orderType: 'buy',
+                price: {
+                    assetId: WAVES_ASSET.id,
+                    coins: '1'
+                },
+                amount: {
+                    assetId: BTC_ASSET.id,
+                    coins: '2'
+                },
+                matcherFee: {
+                    assetId: WAVES_ASSET.id,
+                    coins: '10000'
+                },
+                timestamp: 1555398380418,
+                expiration: 1555398380418 + 1000 * 60 * 60 * 24,
+                senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+                proofs: ['EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c'],
+            },
+            sellOrder: {
+                version: 1,
+                matcherPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9e',
+                orderType: 'sell',
+                price: {
+                    assetId: WAVES_ASSET.id,
+                    coins: '1'
+                },
+                amount: {
+                    assetId: BTC_ASSET.id,
+                    coins: '2'
+                },
+                matcherFee: {
+                    assetId: WAVES_ASSET.id,
+                    coins: '10000'
+                },
+                timestamp: 1555398380418,
+                expiration: 1555398380418 + 1000 * 60 * 60 * 24,
+                senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+                proofs: ['EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c'],
+            },
+            price: 1,
+            amount: '2',
+            buyMatcherFee: {
+                assetId: WAVES_ASSET.id,
+                coins: '10000'
+            },
+            sellMatcherFee: {
+                assetId: WAVES_ASSET.id,
+                coins: '10000'
+            },
+            fee: {
+                assetId: WAVES_ASSET.id,
+                coins: '300000'
+            }
+        },
+        node: {
+            type: TYPES.EXCHANGE,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            buyOrder: {
+                matcherPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9e',
+                version: 1,
+                assetPair: {
+                    amountAsset: BTC_ASSET.id,
+                    priceAsset: WAVES_ASSET.id
+                },
+                orderType: 'buy',
+                price: '1',
+                amount: '2',
+                timestamp: 1555398380418,
+                expiration: 1555398380418 + 1000 * 60 * 60 * 24,
+                matcherFee: '10000',
+                senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+                proofs: ['EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c']
+            },
+            sellOrder: {
+                matcherPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9e',
+                version: 1,
+                assetPair: {
+                    amountAsset: BTC_ASSET.id,
+                    priceAsset: WAVES_ASSET.id
+                },
+                orderType: 'sell',
+                price: '1',
+                amount: '2',
+                timestamp: 1555398380418,
+                expiration: 1555398380418 + 1000 * 60 * 60 * 24,
+                matcherFee: '10000',
+                senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+                proofs: ['EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c']
+            },
+            price: '1',
+            amount: '2',
+            buyMatcherFee: '10000',
+            sellMatcherFee: '10000',
+            fee: '300000'
+        }
+    } as ITestData,
+    {
+        gui: {
+            type: TYPES.LEASE,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            amount: {
+                assetId: WAVES_ASSET.id,
+                coins: '100000000'
+            },
+            recipient: 'merry'
+        },
+        node: {
+            type: TYPES.LEASE,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            amount: '100000000',
+            recipient: 'merry',
+            fee: null
+        }
+    },
+    {
+        gui: {
+            type: TYPES.CANCEL_LEASE,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            leaseId: '213fdsafsdafdskafsdfds'
+        },
+        node: {
+            type: TYPES.CANCEL_LEASE,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            leaseId: '213fdsafsdafdskafsdfds',
+            fee: null
+        }
+    },
+    {
+        gui: {
+            type: TYPES.ALIAS,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            alias: '213fdsafsdafdskafsdfds'
+        },
+        node: {
+            type: TYPES.ALIAS,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            alias: '213fdsafsdafdskafsdfds',
+            fee: null
+        }
+    },
+    {
+        gui: {
+            type: TYPES.MASS_TRANSFER,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            attachment: 'dfasfsdafsdaexe234x2433',
+            transfers: [
+                {
+                    amount: {
+                        assetId: WAVES_ASSET.id,
+                        coins: '10'
+                    },
+                    recipient: 'merry'
+                }
+            ]
+        },
+        node: {
+            type: TYPES.MASS_TRANSFER,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            assetId: WAVES_ASSET.id,
+            attachment: 'dfasfsdafsdaexe234x2433',
+            transfers: [
+                {
+                    amount: '10',
+                    recipient: 'merry'
+                }
+            ],
+            fee: null
+        }
+    },
+    {
+        gui: {
+            type: TYPES.DATA,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            data: [
+                {
+                    key: 'string',
+                    type: 'string',
+                    value: 'some string'
+                },
+                {
+                    key: 'integer',
+                    type: 'integer',
+                    value: 12
+                },
+                {
+                    key: 'boolean',
+                    type: 'boolean',
+                    value: true
+                },
+                {
+                    key: 'binary',
+                    type: 'binary',
+                    value: 'dfasdr2323rcewvfa'
+                }
+            ]
+        },
+        node: {
+            type: TYPES.DATA,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            data: [
+                {
+                    key: 'string',
+                    type: 'string',
+                    value: 'some string'
+                },
+                {
+                    key: 'integer',
+                    type: 'integer',
+                    value: '12'
+                },
+                {
+                    key: 'boolean',
+                    type: 'boolean',
+                    value: true
+                },
+                {
+                    key: 'binary',
+                    type: 'binary',
+                    value: 'dfasdr2323rcewvfa'
+                }
+            ],
+            fee: null
+        }
+    } as ITestData,
+    {
+        gui: {
+            type: TYPES.SET_SCRIPT,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            script: '213fdsafsdafdskafsdfds'
+        },
+        node: {
+            type: TYPES.SET_SCRIPT,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            script: '213fdsafsdafdskafsdfds',
+            fee: null
+        }
+    },
+    {
+        gui: {
+            type: TYPES.SPONSORSHIP,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            minSponsoredAssetFee: {
+                assetId: BTC_ASSET.id,
+                coins: '10000'
+            }
+        },
+        node: {
+            type: TYPES.SPONSORSHIP,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            assetId: BTC_ASSET.id,
+            minSponsoredAssetFee: '10000',
+            fee: null
+        }
+    },
+    {
+        gui: {
+            type: TYPES.SET_ASSET_SCRIPT,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            assetId: BTC_ASSET.id,
+            script: '213fdsafsdafdskafsdfds',
+            chainId: 87,
+        },
+        node: {
+            type: TYPES.SET_ASSET_SCRIPT,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            assetId: BTC_ASSET.id,
+            script: '213fdsafsdafdskafsdfds',
+            chainId: 87,
+            fee: null
+        }
+    },
 ];
 
 interface ITestData {

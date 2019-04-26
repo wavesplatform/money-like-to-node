@@ -1,6 +1,7 @@
 import { TEST_DATA } from './transactionData';
 import { toNode, node } from '../src/transactions';
 import { TYPES } from '../src/constants';
+import { TTransactionType } from '@waves/ts-types';
 
 
 describe('From Waves entity to node', () => {
@@ -18,32 +19,50 @@ describe('From Waves entity to node', () => {
             const nodeData = toNode(data);
             expect(typeof nodeData.timestamp).toBe('number');
             expect((Date.now() - nodeData.timestamp) < 1000).toBe(true);
-
         });
 
-        if (item.node.type === TYPES.TRANSFER) {
+        const toCamelCase = (str: string): string =>
+            str.split('')
+                .reduce((acc, item) => {
+                    if (item === '_') {
+                        acc.nextIsUpper = true;
+                    } else if (acc.nextIsUpper) {
+                        acc.result += item.toUpperCase();
+                        acc.nextIsUpper = false;
+                    } else {
+                        acc.result += item.toLowerCase();
+                    }
+                    return acc;
+                }, {
+                    nextIsUpper: false,
+                    result: ''
+                }).result;
 
-            it(`Test ${i}. Check transfer without type`, () => {
-                const data = { ...item.gui };
-                delete data.type;
+        const txName: keyof typeof node = Object.entries(TYPES)
+            .reduce((result, [key, type]: [string, TTransactionType]): string => {
+                return result ? result : type === item.gui.type ? toCamelCase(key) : result;
+            }, '') as any;
 
-                expect(() => node.transfer(data as any)).toThrow('Transaction type is required!');
-            });
+        it(`Test ${i}. Check ${txName} without type`, () => {
+            const data = { ...item.gui };
+            delete data.type;
 
-            it(`Test ${i}. Check transfer without version`, () => {
-                const data = { ...item.gui };
-                delete data.version;
+            expect(() => node[txName](data as any)).toThrow('Transaction type is required!');
+        });
 
-                expect(() => node.transfer(data as any)).toThrow('Transaction version is required!');
-            });
+        it(`Test ${i}. Check ${txName} without version`, () => {
+            const data = { ...item.gui };
+            delete data.version;
 
-            it(`Test ${i}. Check transfer without senderPublicKey`, () => {
-                const data = { ...item.gui };
-                delete data.senderPublicKey;
+            expect(() => node[txName](data as any)).toThrow('Transaction version is required!');
+        });
 
-                expect(() => node.transfer(data as any)).toThrow('Transaction senderPublicKey is required!');
-            });
-        }
+        it(`Test ${i}. Check ${txName} without senderPublicKey`, () => {
+            const data = { ...item.gui };
+            delete data.senderPublicKey;
+
+            expect(() => node[txName](data as any)).toThrow('Transaction senderPublicKey is required!');
+        });
 
     });
 

@@ -11,7 +11,7 @@ import { setAssetScript, IWavesGuiSetAssetScript } from './setAssetScript';
 import { setScript, IWavesGuiSetScript } from './setScript';
 import { sponsorship, IWavesGuiSponsorship } from './sponsorship';
 import { transfer, IWavesGuiTransfer } from './transfer';
-import { TTransaction } from '@waves/ts-types';
+import { TTransaction, TTransactionMap, TTransactionType } from '@waves/ts-types';
 import { TYPES } from '../constants';
 import { TWithPartialFee } from '../types';
 
@@ -40,7 +40,8 @@ export {
     IWavesGuiTransfer,
 };
 
-export const toNode = (item: TWavesGuiEntity): TWithPartialFee<TTransaction<string>> => {
+export function toNode<TX extends TWavesGuiEntity, TYPE extends TX['type'] = TX['type']>(item: TX): TWithPartialFee<TTransactionMap<string>[TYPE]>
+export function toNode(item: TWavesGuiEntity): TWithPartialFee<TTransaction<string>> {
     switch (item.type) {
         case TYPES.ISSUE:
             return issue(item);
@@ -71,7 +72,7 @@ export const toNode = (item: TWavesGuiEntity): TWithPartialFee<TTransaction<stri
         default:
             throw new Error('Unknown transaction type!');
     }
-};
+}
 
 export type TWavesGuiEntity = IWavesGuiAlias
     | IWavesGuiBurn

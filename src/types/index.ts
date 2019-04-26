@@ -7,7 +7,7 @@ export interface IMoney {
 }
 
 export interface IMoneyLike {
-    readonly coins: string;
+    readonly coins: string | number;
     readonly assetId: string;
 }
 
