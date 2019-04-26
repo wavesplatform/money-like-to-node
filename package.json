@@ -2,7 +2,7 @@
   "name": "toNode",
   "version": "1.0.0",
   "dependencies": {
-    "@waves/ts-types": "^0.2.0-beta-1"
+    "@waves/ts-types": "^0.2.0-beta-3"
   },
   "scripts": {
     "test": "jest"
