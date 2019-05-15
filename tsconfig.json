@@ -10,7 +10,9 @@
       "es2015",
       "es2017.object"
     ],
-    "skipDefaultLibCheck": true
+    "declaration": true,
+    "skipDefaultLibCheck": true,
+    "outDir": "./dist"
   },
   "exclude": [
     "node_modules"
