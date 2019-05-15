@@ -2,7 +2,7 @@ import { alias, IWavesGuiAlias } from './alias';
 import { burn, IWavesGuiBurn } from './burn';
 import { cancelLease, IWavesGuiCancelLease } from './cancelLease';
 import { data, IWavesGuiData } from './data';
-import { exchange, IWavesGuiExchange } from './exchange';
+import { exchange, remapOrder as order, IWavesGuiExchangeOrder, IWavesGuiExchange } from './exchange';
 import { issue, IWavesGuiIssue } from './issue';
 import { reissue, IWavesGuiReissue } from './reissue';
 import { lease, IWavesGuiLease } from './lease';
@@ -11,9 +11,10 @@ import { setAssetScript, IWavesGuiSetAssetScript } from './setAssetScript';
 import { setScript, IWavesGuiSetScript } from './setScript';
 import { sponsorship, IWavesGuiSponsorship } from './sponsorship';
 import { transfer, IWavesGuiTransfer } from './transfer';
-import { TTransaction, TTransactionMap, TTransactionType } from '@waves/ts-types';
+import { IExchangeTransactionOrderWithProofs, TTransaction, TTransactionMap } from '@waves/ts-types';
 import { TYPES } from '../constants';
 import { TWithPartialFee } from '../types';
+import { isOrder } from '../utils';
 
 
 export const node = {
@@ -21,7 +22,7 @@ export const node = {
     data, exchange, issue,
     reissue, lease, massTransfer,
     setAssetScript, setScript, sponsorship,
-    transfer
+    transfer, order
 };
 
 export {
@@ -40,8 +41,14 @@ export {
     IWavesGuiTransfer,
 };
 
-export function toNode<TX extends TWavesGuiEntity, TYPE extends TX['type'] = TX['type']>(item: TX): TWithPartialFee<TTransactionMap<string>[TYPE]>
-export function toNode(item: TWavesGuiEntity): TWithPartialFee<TTransaction<string>> {
+export function toNode(item: IWavesGuiExchangeOrder): IExchangeTransactionOrderWithProofs<string>;
+export function toNode<TX extends TWavesGuiEntity, TYPE extends TX['type'] = TX['type']>(item: TX): TWithPartialFee<TTransactionMap<string>[TYPE]>;
+export function toNode(item: TWavesGuiEntity | IWavesGuiExchangeOrder): TWithPartialFee<TTransaction<string>> | IExchangeTransactionOrderWithProofs<string> {
+
+    if (isOrder(item)) {
+        return order(item);
+    }
+
     switch (item.type) {
         case TYPES.ISSUE:
             return issue(item);
@@ -73,6 +80,7 @@ export function toNode(item: TWavesGuiEntity): TWithPartialFee<TTransaction<stri
             throw new Error('Unknown transaction type!');
     }
 }
+
 
 export type TWavesGuiEntity = IWavesGuiAlias
     | IWavesGuiBurn

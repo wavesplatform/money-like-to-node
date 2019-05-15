@@ -14,70 +14,87 @@ import {
     ITransaction,
     ITransferTransaction,
     TTransaction,
-    TTransactionType,
-    TTransactionMap
+    IExchangeTransactionOrderWithProofs, IMassTransferItem, TDataTransactionEntry
 } from '@waves/ts-types';
 import { TYPES } from '../constants';
+import { isOrder } from '../utils';
 
 
-export const defaultConvert = <LONG, T extends ITransaction<string>>(data: T, factory: IFactory<LONG>): { [Key in keyof T]: Key extends 'fee' ? LONG : T[Key] } => {
-    return Object.assign({}, data, { fee: factory(data.fee) }) as { [Key in keyof T]: Key extends 'fee' ? LONG : T[Key] };
+type TConvertMap<TO, T extends TTransaction<any>> = {
+    [TYPES.ISSUE]: TReplaceParam<T, 'fee' | 'quantity', TO>;
+    [TYPES.TRANSFER]: TReplaceParam<T, 'fee' | 'amount', TO>;
+    [TYPES.REISSUE]: TReplaceParam<T, 'fee' | 'quantity', TO>;
+    [TYPES.BURN]: TReplaceParam<T, 'fee' | 'quantity', TO>;
+    [TYPES.EXCHANGE]: TReplaceParam<T, 'fee' | 'buyOrder' | 'sellOrder' | 'amount' | 'price' | 'sellMatcherFee' | 'buyMatcherFee', TO>;
+    [TYPES.LEASE]: TReplaceParam<T, 'fee' | 'amount', TO>;
+    [TYPES.CANCEL_LEASE]: TReplaceParam<T, 'fee', TO>;
+    [TYPES.ALIAS]: TReplaceParam<T, 'fee', TO>;
+    [TYPES.MASS_TRANSFER]: T extends IMassTransferTransaction<any> ? TReplaceParam<TReplaceParam<T, 'fee', TO>, 'transfers', Array<IMassTransferItem<TO>>> : never;
+    [TYPES.DATA]: T extends IDataTransaction<any> ? TReplaceParam<TReplaceParam<T, 'fee', TO>, 'data', Array<TDataTransactionEntry<TO>>> : never;
+    [TYPES.SET_SCRIPT]: TReplaceParam<T, 'fee', TO>;
+    [TYPES.SPONSORSHIP]: TReplaceParam<T, 'fee' | 'minSponsoredAssetFee', TO>;
+    [TYPES.SET_ASSET_SCRIPT]: TReplaceParam<T, 'fee', TO>;
+}
+
+type TReplaceParam<T, KEYS, NEW_VALUE> = {
+    [Key in keyof T]: Key extends KEYS ? NEW_VALUE : T[Key];
+}
+
+const defaultConvert = <FROM, TO, T extends ITransaction<any>>(data: T, factory: IFactory<FROM, TO>): TReplaceParam<T, 'fee', TO> => {
+    return Object.assign({}, data, { fee: factory(data.fee) }) as TReplaceParam<T, 'fee', TO>;
 };
 
-export const issue: IConvert<IIssueTransaction<string>> = <LONG>(tx: IIssueTransaction<string>, factory: IFactory<LONG>) => ({
+export const issue = <FROM, TO, TX extends IIssueTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory), quantity: factory(tx.quantity)
 });
 
-export const transfer: IConvert<ITransferTransaction<string>> = (tx, factory) => ({
+export const transfer = <FROM, TO, TX extends ITransferTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory),
     amount: factory(tx.amount)
 });
 
-export const reissue: IConvert<IReissueTransaction<string>> = (tx, factory) => ({
+export const reissue = <FROM, TO, TX extends IReissueTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory),
     quantity: factory(tx.quantity)
 });
 
-export const burn: IConvert<IBurnTransaction<string>> = (tx, factory) => ({
+export const burn = <FROM, TO, TX extends IBurnTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory),
     quantity: factory(tx.quantity)
 });
 
-export const exchange: IConvert<IExchangeTransaction<string>> = (tx, factory) => ({
+export const order = <FROM, TO, O extends IExchangeTransactionOrderWithProofs<FROM>>(data: O, factory: IFactory<FROM, TO>): TReplaceParam<O, 'price' | 'amount' | 'matcherFee', TO> => ({
+    ...data,
+    price: factory(data.price),
+    amount: factory(data.amount),
+    matcherFee: factory(data.matcherFee)
+} as TReplaceParam<O, 'price' | 'amount' | 'matcherFee', TO>);
+
+export const exchange = <FROM, TO, TX extends IExchangeTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory),
-    buyOrder: {
-        ...tx.buyOrder,
-        price: factory(tx.buyOrder.price),
-        amount: factory(tx.buyOrder.amount),
-        matcherFee: factory(tx.buyOrder.matcherFee)
-    },
-    sellOrder: {
-        ...tx.buyOrder,
-        price: factory(tx.sellOrder.price),
-        amount: factory(tx.sellOrder.amount),
-        matcherFee: factory(tx.sellOrder.matcherFee)
-    },
+    buyOrder: order(tx.buyOrder, factory),
+    sellOrder: order(tx.sellOrder, factory),
     amount: factory(tx.amount),
     price: factory(tx.price),
     sellMatcherFee: factory(tx.sellMatcherFee),
     buyMatcherFee: factory(tx.buyMatcherFee),
 });
 
-export const lease: IConvert<ILeaseTransaction<string>> = (tx, factory) => ({
+export const lease = <FROM, TO, TX extends ILeaseTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory),
     amount: factory(tx.amount)
 });
 
-export const cancelLease: IConvert<ICancelLeaseTransaction<string>> = (tx, factory) => defaultConvert(tx, factory);
+export const cancelLease = <FROM, TO, TX extends ICancelLeaseTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => defaultConvert(tx, factory);
 
-export const alias: IConvert<IAliasTransaction<string>> = (tx, factory) => defaultConvert(tx, factory);
+export const alias = <FROM, TO, TX extends IAliasTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => defaultConvert(tx, factory);
 
-export const massTransfer: IConvert<IMassTransferTransaction<string>> = (tx, factory) => ({
+export const massTransfer = <FROM, TO, TX extends IMassTransferTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory),
     transfers: tx.transfers.map(item => ({ ...item, amount: factory(item.amount) }))
 });
 
-export const data: IConvert<IDataTransaction<string>> = (tx, factory) => ({
+export const data = <FROM, TO, TX extends IDataTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory),
     data: tx.data.map(item => {
         switch (item.type) {
@@ -89,17 +106,23 @@ export const data: IConvert<IDataTransaction<string>> = (tx, factory) => ({
     })
 });
 
-export const setScript: IConvert<ISetScriptTransaction<string>> = (tx, factory) => defaultConvert(tx, factory);
+export const setScript = <FROM, TO, TX extends ISetScriptTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => defaultConvert(tx, factory);
 
-export const sponsorship: IConvert<ISponsorshipTransaction<string>> = (tx, factory) => ({
+export const sponsorship = <FROM, TO, TX extends ISponsorshipTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory),
     minSponsoredAssetFee: factory(tx.minSponsoredAssetFee)
 });
 
-export const setAssetScript: IConvert<ISetAssetScriptTransaction<string>> = (tx, factory) => defaultConvert(tx, factory);
+export const setAssetScript = <FROM, TO, TX extends ISetAssetScriptTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => defaultConvert(tx, factory);
 
-export function convert<LONG, TX extends TTransaction<string>, TYPE extends TX['type'] = TX['type']>(tx: TX, factory: IFactory<LONG>): TTransactionMap<LONG>[TYPE];
-export function convert<LONG>(tx: TTransaction<string>, factory: IFactory<LONG>): TTransaction<LONG> {
+export function convert<FROM, TO, TX extends TTransaction<FROM>, TYPE extends TX['type'] = TX['type']>(tx: TX, factory: IFactory<FROM, TO>): TConvertMap<TO, TX>[TYPE];
+export function convert<FROM, TO, TX extends IExchangeTransactionOrderWithProofs<FROM>>(tx: TX, factory: IFactory<FROM, TO>): TReplaceParam<TX, 'price' | 'amount' | 'matcherFee', TO>;
+export function convert<FROM, TO>(tx: TTransaction<FROM> | IExchangeTransactionOrderWithProofs<FROM>, factory: IFactory<FROM, TO>): TTransaction<TO> | IExchangeTransactionOrderWithProofs<TO> {
+
+    if (isOrder(tx)) {
+        return order(tx, factory);
+    }
+
     switch (tx.type) {
         case TYPES.ISSUE:
             return issue(tx, factory);
@@ -132,10 +155,6 @@ export function convert<LONG>(tx: TTransaction<string>, factory: IFactory<LONG>)
     }
 }
 
-interface IConvert<TX extends TTransaction<string>> {
-    <LONG>(data: TX, factory: IFactory<LONG>): TTransactionMap<LONG>[TX['type']]
-}
-
-interface IFactory<LONG> {
-    (long: string): LONG;
+interface IFactory<FROM, TO> {
+    (long: FROM): TO;
 }

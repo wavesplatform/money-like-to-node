@@ -18,10 +18,3 @@ export const TYPES: typeof TRANSACTION_TYPE = {
     SPONSORSHIP: 14 as 14,
     SET_ASSET_SCRIPT: 15 as 15
 };
-
-export const DATA_FIELD_TYPE = {
-    INTEGER: 'integer' as 'integer',
-    BOOLEAN: 'boolean' as 'boolean',
-    STRING: 'string' as 'string',
-    BINARY: 'binary' as 'binary'
-};

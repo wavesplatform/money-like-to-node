@@ -11,7 +11,7 @@ const getAssetPair = factory<IWavesGuiExchangeOrder, { amountAsset: string; pric
     priceAsset: pipe<IWavesGuiExchangeOrder, TMoney, string>(prop('price'), getAssetId)
 });
 
-const remapOrder = factory<IWavesGuiExchangeOrder, IExchangeTransactionOrderWithProofs<string>>({
+export const remapOrder = factory<IWavesGuiExchangeOrder, IExchangeTransactionOrderWithProofs<string>>({
     version: prop('version'),
     matcherPublicKey: prop('matcherPublicKey'),
     orderType: prop('orderType'),
@@ -44,7 +44,7 @@ export interface IWavesGuiExchange extends IDefaultGuiTx<typeof TYPES.EXCHANGE> 
     sellMatcherFee: TMoney;
 }
 
-interface IWavesGuiExchangeOrder {
+export interface IWavesGuiExchangeOrder {
     version: number;
     matcherPublicKey: string;
     orderType: 'buy' | 'sell';

@@ -21,4 +21,4 @@ export type TWithPartialFee<T extends {fee: string}> = {
 
 
 export type TMoney = IMoney | IMoneyLike;
-export type TLong = IBigNum | string | number ;
+export type TLong = IBigNum | string | number;

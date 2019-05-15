@@ -1,5 +1,7 @@
 import { TLong, TMoney } from '../types';
 import { expression } from '@babel/template';
+import { IWavesGuiExchangeOrder } from '../toNodeEntities/exchange';
+import { TWavesGuiEntity } from '../toNodeEntities';
 
 export function getAssetId(money: TMoney): string;
 export function getAssetId(money: TLong | null | undefined): null;
@@ -34,7 +36,7 @@ export function getCoins(money: TMoney | TLong | undefined | null): string | nul
         } else if ('toFixed' in money) {
             result = money.toFixed();
         } else {
-            result = money.coins;
+            result = String(money.coins);
         }
     } else {
         result = String(money);
@@ -60,6 +62,11 @@ export const emptyError = <T>(message: string) => (value: T | null | undefined):
     }
     return value as any;
 };
+
+export function isOrder<T extends { orderType: string }>(data: any): data is T {
+    return ('orderType' in data);
+}
+
 
 export const head = <T>(list: Array<T>): T | undefined => list[0];
 
