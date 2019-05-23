@@ -149,10 +149,11 @@ export const TEST_DATA: Array<ITestData> = [
             senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
             timestamp: 1555398380418,
             reissuable: true,
-            amount: {
+            quantity: {
                 coins: '10000',
                 assetId: BTC_ASSET.id
-            }
+            },
+            chainId: 87
         },
         node: {
             type: TYPES.REISSUE,
@@ -162,7 +163,31 @@ export const TEST_DATA: Array<ITestData> = [
             assetId: BTC_ASSET.id,
             quantity: '10000',
             reissuable: true,
-            fee: null
+            fee: null,
+            chainId: 87
+        }
+    } as ITestData,
+    {
+        gui: {
+            type: TYPES.REISSUE,
+            version: 1,
+            assetId: BTC_ASSET.id,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            reissuable: true,
+            quantity: '10000',
+            chainId: 87
+        },
+        node: {
+            type: TYPES.REISSUE,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            assetId: BTC_ASSET.id,
+            quantity: '10000',
+            reissuable: true,
+            fee: null,
+            chainId: 87
         }
     } as ITestData,
     {
@@ -321,7 +346,8 @@ export const TEST_DATA: Array<ITestData> = [
             version: 1,
             senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
             timestamp: 1555398380418,
-            leaseId: '213fdsafsdafdskafsdfds'
+            leaseId: '213fdsafsdafdskafsdfds',
+            chainId: 87
         },
         node: {
             type: TYPES.CANCEL_LEASE,
@@ -329,7 +355,8 @@ export const TEST_DATA: Array<ITestData> = [
             senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
             timestamp: 1555398380418,
             leaseId: '213fdsafsdafdskafsdfds',
-            fee: null
+            fee: null,
+            chainId: 87
         }
     },
     {
@@ -447,7 +474,8 @@ export const TEST_DATA: Array<ITestData> = [
             version: 1,
             senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
             timestamp: 1555398380418,
-            script: '213fdsafsdafdskafsdfds'
+            script: '213fdsafsdafdskafsdfds',
+            chainId: 87
         },
         node: {
             type: TYPES.SET_SCRIPT,
@@ -455,7 +483,8 @@ export const TEST_DATA: Array<ITestData> = [
             senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
             timestamp: 1555398380418,
             script: '213fdsafsdafdskafsdfds',
-            fee: null
+            fee: null,
+            chainId: 87
         }
     },
     {

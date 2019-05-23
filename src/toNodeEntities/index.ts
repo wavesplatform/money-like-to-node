@@ -1,12 +1,12 @@
 import { alias, IWavesGuiAlias } from './alias';
-import { burn, IWavesGuiBurn } from './burn';
+import { burn, TWavesGuiBurn } from './burn';
 import { cancelLease, IWavesGuiCancelLease } from './cancelLease';
 import { data, IWavesGuiData } from './data';
 import { exchange, remapOrder as order, IWavesGuiExchangeOrder, IWavesGuiExchange } from './exchange';
 import { issue, IWavesGuiIssue } from './issue';
-import { reissue, IWavesGuiReissue } from './reissue';
+import { reissue, TWavesGuiReissue } from './reissue';
 import { lease, IWavesGuiLease } from './lease';
-import { massTransfer, IWavesGuiMassTransfer } from './massTransfer';
+import { massTransfer, TWavesGuiMassTransfer } from './massTransfer';
 import { setAssetScript, IWavesGuiSetAssetScript } from './setAssetScript';
 import { setScript, IWavesGuiSetScript } from './setScript';
 import { sponsorship, IWavesGuiSponsorship } from './sponsorship';
@@ -15,6 +15,7 @@ import { IExchangeTransactionOrderWithProofs, TTransaction, TTransactionMap } fr
 import { TYPES } from '../constants';
 import { TWithPartialFee } from '../types';
 import { isOrder } from '../utils';
+import { invokeScript, IWavesGuiInvokeScript } from './invokeScript';
 
 
 export const node = {
@@ -22,19 +23,19 @@ export const node = {
     data, exchange, issue,
     reissue, lease, massTransfer,
     setAssetScript, setScript, sponsorship,
-    transfer, order
+    transfer, order, invokeScript
 };
 
 export {
     IWavesGuiAlias,
-    IWavesGuiBurn,
+    TWavesGuiBurn,
     IWavesGuiCancelLease,
     IWavesGuiData,
     IWavesGuiExchange,
     IWavesGuiIssue,
-    IWavesGuiReissue,
+    TWavesGuiReissue,
     IWavesGuiLease,
-    IWavesGuiMassTransfer,
+    TWavesGuiMassTransfer,
     IWavesGuiSetAssetScript,
     IWavesGuiSetScript,
     IWavesGuiSponsorship,
@@ -76,6 +77,8 @@ export function toNode(item: TWavesGuiEntity | IWavesGuiExchangeOrder): TWithPar
             return sponsorship(item);
         case TYPES.SET_ASSET_SCRIPT:
             return setAssetScript(item);
+        case TYPES.INVOKE_SCRIPT:
+            return invokeScript(item);
         default:
             throw new Error('Unknown transaction type!');
     }
@@ -83,15 +86,16 @@ export function toNode(item: TWavesGuiEntity | IWavesGuiExchangeOrder): TWithPar
 
 
 export type TWavesGuiEntity = IWavesGuiAlias
-    | IWavesGuiBurn
+    | TWavesGuiBurn
     | IWavesGuiCancelLease
     | IWavesGuiData
     | IWavesGuiExchange
     | IWavesGuiIssue
-    | IWavesGuiReissue
+    | TWavesGuiReissue
     | IWavesGuiLease
-    | IWavesGuiMassTransfer
+    | TWavesGuiMassTransfer
     | IWavesGuiSetAssetScript
     | IWavesGuiSetScript
     | IWavesGuiSponsorship
     | IWavesGuiTransfer
+    | IWavesGuiInvokeScript;

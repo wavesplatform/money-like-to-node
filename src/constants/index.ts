@@ -16,5 +16,6 @@ export const TYPES: typeof TRANSACTION_TYPE = {
     DATA: 12 as 12,
     SET_SCRIPT: 13 as 13,
     SPONSORSHIP: 14 as 14,
-    SET_ASSET_SCRIPT: 15 as 15
+    SET_ASSET_SCRIPT: 15 as 15,
+    INVOKE_SCRIPT: 16 as 16
 };

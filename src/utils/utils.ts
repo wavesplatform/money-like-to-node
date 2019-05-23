@@ -56,6 +56,10 @@ export const curry: ICurry = (func: (...args: Array<any>) => any) => {
     return (...args: Array<any>) => loop(func, ...args);
 };
 
+export const ifElse = <T, Y, N>(expression: (data: T) => boolean, resolve: (data: T) => Y, reject: (data: T) => N) => (data: T): Y | N => expression(data) ? resolve(data) : reject(data);
+
+export const has: IHas = curry(<T extends { [Key: string]: any }>(prop: string | number | symbol, data: T): prop is keyof T => Object.prototype.hasOwnProperty.call(data, prop)) as any;
+
 export const emptyError = <T>(message: string) => (value: T | null | undefined): T | never => {
     if (value == null) {
         throw new Error(message);
@@ -78,6 +82,12 @@ export const prop: IProp = curry(<T, K extends keyof T>(key: K, data: T): T[K] =
 
 export const pipe: IPipe = (...processors: Array<Function>) => (initial: any) => processors.reduce((acc, cb) => cb(acc), initial);
 
+
+interface IHas {
+    <T extends { [Key: string]: any }>(prop: string | number | symbol, data: T): prop is keyof T;
+
+    <K extends keyof any, T extends { [Key: string]: any }>(prop: K): (data: T) => boolean;
+}
 
 interface IMap {
     <T, R>(cb: (item: T) => R, list: Array<T>): Array<R>;
