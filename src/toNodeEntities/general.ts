@@ -1,20 +1,40 @@
 import { ITransaction, TTransactionType } from '@waves/ts-types';
 import { TLong, TMoney, TWithPartialFee } from '../types';
-import { emptyError, getCoins, pipe, prop } from '../utils';
+import { getCoins, pipe, prop } from '../utils';
+import { requiredValidator, validate } from '../validators';
 
 
-export const getDefaultTransform = <TYPE extends TTransactionType, T extends IDefaultGuiTx<TYPE>>(): { [Key in keyof ITransaction<string, TYPE>]: (data: T) => TWithPartialFee<ITransaction<string, TYPE>>[Key] } => ({
-    type: pipe(prop('type'), emptyError('Transaction type is required!')),
-    version: pipe(prop('version'), emptyError('Transaction version is required!')),
-    senderPublicKey: pipe(prop('senderPublicKey'), emptyError('Transaction senderPublicKey is required!')),
-    timestamp: pipe(prop('timestamp'), (timestamp: number | undefined): number => timestamp || Date.now()),
-    fee: pipe(prop('fee'), getCoins),
+const processTimestamp = (timestamp: number | undefined): number => timestamp || Date.now();
+
+
+export const getDefaultTransform = <TYPE extends TTransactionType, T extends IDefaultGuiTx<TYPE>>(): { [Key in keyof ITransaction<string, TYPE>]: (data: T) => ITransaction<string, TYPE>[Key] } => ({
+    type: pipe(
+        prop('type'),
+        validate(requiredValidator('type'))
+    ),
+    version: pipe(
+        prop('version'),
+        validate(requiredValidator('version'))
+    ),
+    senderPublicKey: pipe(
+        prop('senderPublicKey'),
+        validate(requiredValidator('senderPublicKey'))
+    ),
+    timestamp: pipe(
+        prop('timestamp'),
+        processTimestamp
+    ),
+    fee: pipe(
+        prop('fee'),
+        getCoins,
+        validate(requiredValidator('fee'))
+    )
 });
 
 export interface IDefaultGuiTx<TYPE> {
     type: TYPE;
     version: number;
-    fee?: TLong | TMoney;
-    senderPublicKey?: string;
+    senderPublicKey: string;
     timestamp?: number;
+    fee: TLong | TMoney;
 }

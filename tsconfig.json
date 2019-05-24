@@ -12,10 +12,12 @@
     ],
     "declaration": true,
     "skipDefaultLibCheck": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "experimentalDecorators": true
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ],
   "include": [
     "src"

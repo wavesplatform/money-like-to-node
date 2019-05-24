@@ -19,3 +19,9 @@ export const TYPES: typeof TRANSACTION_TYPE = {
     SET_ASSET_SCRIPT: 15 as 15,
     INVOKE_SCRIPT: 16 as 16
 };
+
+export const ALIAS = {
+    AVAILABLE_CHARS: '-.0123456789@_abcdefghijklmnopqrstuvwxyz',
+    MAX_ALIAS_LENGTH: 30,
+    MIN_ALIAS_LENGTH: 4,
+};

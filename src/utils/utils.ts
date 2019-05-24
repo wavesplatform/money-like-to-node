@@ -71,6 +71,16 @@ export function isOrder<T extends { orderType: string }>(data: any): data is T {
     return ('orderType' in data);
 }
 
+export const length = (some: string | Array<any>): number => some.length;
+
+export const lt: IComparator = curry((a: number, b: number) => a < b) as any;
+
+export const gt: IComparator = curry((a: number, b: number) => a > b) as any;
+
+export const lte: IComparator = curry((a: number, b: number) => a <= b) as any;
+
+export const gte: IComparator = curry((a: number, b: number) => a >= b) as any;
+
 
 export const head = <T>(list: Array<T>): T | undefined => list[0];
 
@@ -82,6 +92,12 @@ export const prop: IProp = curry(<T, K extends keyof T>(key: K, data: T): T[K] =
 
 export const pipe: IPipe = (...processors: Array<Function>) => (initial: any) => processors.reduce((acc, cb) => cb(acc), initial);
 
+
+interface IComparator {
+    (a: number, b: number): boolean;
+
+    (a: number): (b: number) => boolean;
+}
 
 interface IHas {
     <T extends { [Key: string]: any }>(prop: string | number | symbol, data: T): prop is keyof T;
@@ -96,6 +112,8 @@ interface IMap {
 }
 
 interface IPipe {
+    <A, B>(cb1: (a: A) => B): (a: A) => B;
+
     <A, B, R>(cb1: (a: A) => B, cb2: (b: B) => R): (a: A) => R;
 
     <A, B, C, R>(cb1: (a: A) => B, cb2: (b: B) => C, cb3: (c: C) => R): (a: A) => R;

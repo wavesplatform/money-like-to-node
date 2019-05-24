@@ -43,27 +43,35 @@ describe('From Waves entity to node', () => {
                 return result ? result : type === item.gui.type ? toCamelCase(key) : result;
             }, '') as any;
 
-        it(`Test ${i}. Check ${txName} without type`, () => {
-            const data = { ...item.gui };
-            delete data.type;
-
-            expect(() => node[txName](data as any)).toThrow('Transaction type is required!');
-        });
-
-        it(`Test ${i}. Check ${txName} without version`, () => {
-            const data = { ...item.gui };
-            delete data.version;
-
-            expect(() => node[txName](data as any)).toThrow('Transaction version is required!');
-        });
-
-        it(`Test ${i}. Check ${txName} without senderPublicKey`, () => {
-            const data = { ...item.gui };
-            delete data.senderPublicKey;
-
-            expect(() => node[txName](data as any)).toThrow('Transaction senderPublicKey is required!');
-        });
+        // it(`Test ${i}. Check ${txName} without type`, () => {
+        //     const data = { ...item.gui };
+        //     delete data.type;
+        //
+        //     expect(() => node[txName](data as any)).toThrow('Validation error! Details: [\n' +
+        //         '    "Property \\"type\\" is required!"\n' +
+        //         ']');
+        // });
+        //
+        // it(`Test ${i}. Check ${txName} without version`, () => {
+        //     const data = { ...item.gui };
+        //     delete data.version;
+        //
+        //     expect(() => node[txName](data as any)).toThrow('Validation error! Details: [\n' +
+        //         '    "Property \\"version\\" is required!"\n' +
+        //         ']');
+        // });
+        //
+        // it(`Test ${i}. Check ${txName} without senderPublicKey`, () => {
+        //     const data = { ...item.gui };
+        //     delete data.senderPublicKey;
+        //
+        //     expect(() => node[txName](data as any)).toThrow('Validation error! Details: [\n' +
+        //         '    "Property \\"senderPublicKey\\" is required!"\n' +
+        //         ']');
+        // });
 
     });
+
+
 
 });

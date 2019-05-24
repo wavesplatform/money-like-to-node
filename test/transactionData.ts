@@ -153,7 +153,8 @@ export const TEST_DATA: Array<ITestData> = [
                 coins: '10000',
                 assetId: BTC_ASSET.id
             },
-            chainId: 87
+            chainId: 87,
+            fee: '10000'
         },
         node: {
             type: TYPES.REISSUE,
@@ -163,7 +164,7 @@ export const TEST_DATA: Array<ITestData> = [
             assetId: BTC_ASSET.id,
             quantity: '10000',
             reissuable: true,
-            fee: null,
+            fee: '10000',
             chainId: 87
         }
     } as ITestData,
@@ -176,7 +177,8 @@ export const TEST_DATA: Array<ITestData> = [
             timestamp: 1555398380418,
             reissuable: true,
             quantity: '10000',
-            chainId: 87
+            chainId: 87,
+            fee: '10000'
         },
         node: {
             type: TYPES.REISSUE,
@@ -186,7 +188,7 @@ export const TEST_DATA: Array<ITestData> = [
             assetId: BTC_ASSET.id,
             quantity: '10000',
             reissuable: true,
-            fee: null,
+            fee: '10000',
             chainId: 87
         }
     } as ITestData,
@@ -199,7 +201,8 @@ export const TEST_DATA: Array<ITestData> = [
             quantity: {
                 coins: '10000',
                 assetId: BTC_ASSET.id
-            }
+            },
+            fee: '10000'
         },
         node: {
             type: TYPES.BURN,
@@ -208,7 +211,7 @@ export const TEST_DATA: Array<ITestData> = [
             timestamp: 1555398380418,
             assetId: BTC_ASSET.id,
             quantity: '10000',
-            fee: null
+            fee: '10000'
         }
     } as ITestData,
     {
@@ -328,7 +331,8 @@ export const TEST_DATA: Array<ITestData> = [
                 assetId: WAVES_ASSET.id,
                 coins: '100000000'
             },
-            recipient: 'merry'
+            recipient: 'merry',
+            fee: '10000'
         },
         node: {
             type: TYPES.LEASE,
@@ -337,7 +341,7 @@ export const TEST_DATA: Array<ITestData> = [
             timestamp: 1555398380418,
             amount: '100000000',
             recipient: 'merry',
-            fee: null
+            fee: '10000'
         }
     },
     {
@@ -347,7 +351,8 @@ export const TEST_DATA: Array<ITestData> = [
             senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
             timestamp: 1555398380418,
             leaseId: '213fdsafsdafdskafsdfds',
-            chainId: 87
+            chainId: 87,
+            fee: '10000'
         },
         node: {
             type: TYPES.CANCEL_LEASE,
@@ -355,7 +360,7 @@ export const TEST_DATA: Array<ITestData> = [
             senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
             timestamp: 1555398380418,
             leaseId: '213fdsafsdafdskafsdfds',
-            fee: null,
+            fee: '10000',
             chainId: 87
         }
     },
@@ -365,7 +370,8 @@ export const TEST_DATA: Array<ITestData> = [
             version: 1,
             senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
             timestamp: 1555398380418,
-            alias: '213fdsafsdafdskafsdfds'
+            alias: '213fdsafsdafdskafsdfds',
+            fee: '10000'
         },
         node: {
             type: TYPES.ALIAS,
@@ -373,7 +379,7 @@ export const TEST_DATA: Array<ITestData> = [
             senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
             timestamp: 1555398380418,
             alias: '213fdsafsdafdskafsdfds',
-            fee: null
+            fee: '10000'
         }
     },
     {
@@ -391,7 +397,8 @@ export const TEST_DATA: Array<ITestData> = [
                     },
                     recipient: 'merry'
                 }
-            ]
+            ],
+            fee: '10000'
         },
         node: {
             type: TYPES.MASS_TRANSFER,
@@ -406,7 +413,7 @@ export const TEST_DATA: Array<ITestData> = [
                     recipient: 'merry'
                 }
             ],
-            fee: null
+            fee: '10000'
         }
     },
     {
@@ -436,7 +443,8 @@ export const TEST_DATA: Array<ITestData> = [
                     type: 'binary',
                     value: 'dfasdr2323rcewvfa'
                 }
-            ]
+            ],
+            fee: '10000'
         },
         node: {
             type: TYPES.DATA,
@@ -465,7 +473,7 @@ export const TEST_DATA: Array<ITestData> = [
                     value: 'dfasdr2323rcewvfa'
                 }
             ],
-            fee: null
+            fee: '10000'
         }
     } as ITestData,
     {
@@ -475,7 +483,8 @@ export const TEST_DATA: Array<ITestData> = [
             senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
             timestamp: 1555398380418,
             script: '213fdsafsdafdskafsdfds',
-            chainId: 87
+            chainId: 87,
+            fee: '10000'
         },
         node: {
             type: TYPES.SET_SCRIPT,
@@ -483,7 +492,7 @@ export const TEST_DATA: Array<ITestData> = [
             senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
             timestamp: 1555398380418,
             script: '213fdsafsdafdskafsdfds',
-            fee: null,
+            fee: '10000',
             chainId: 87
         }
     },
@@ -496,7 +505,8 @@ export const TEST_DATA: Array<ITestData> = [
             minSponsoredAssetFee: {
                 assetId: BTC_ASSET.id,
                 coins: '10000'
-            }
+            },
+            fee: '10000'
         },
         node: {
             type: TYPES.SPONSORSHIP,
@@ -505,7 +515,7 @@ export const TEST_DATA: Array<ITestData> = [
             timestamp: 1555398380418,
             assetId: BTC_ASSET.id,
             minSponsoredAssetFee: '10000',
-            fee: null
+            fee: '10000'
         }
     },
     {
@@ -517,6 +527,7 @@ export const TEST_DATA: Array<ITestData> = [
             assetId: BTC_ASSET.id,
             script: '213fdsafsdafdskafsdfds',
             chainId: 87,
+            fee: '10000'
         },
         node: {
             type: TYPES.SET_ASSET_SCRIPT,
@@ -526,7 +537,7 @@ export const TEST_DATA: Array<ITestData> = [
             assetId: BTC_ASSET.id,
             script: '213fdsafsdafdskafsdfds',
             chainId: 87,
-            fee: null
+            fee: '10000'
         }
     },
 ];
