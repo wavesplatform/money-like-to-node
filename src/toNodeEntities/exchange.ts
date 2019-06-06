@@ -22,6 +22,7 @@ export const remapOrder = factory<IWavesGuiExchangeOrder, IExchangeTransactionOr
     price: pipe<IWavesGuiExchangeOrder, TMoney, string>(prop('price'), getCoins),
     amount: pipe<IWavesGuiExchangeOrder, TMoney, string>(prop('amount'), getCoins),
     matcherFee: pipe<IWavesGuiExchangeOrder, TMoney, string>(prop('matcherFee'), getCoins),
+    matcherFeeAssetId: pipe<IWavesGuiExchangeOrder, TMoney, string>(prop('matcherFee'), getAssetId),
     assetPair: getAssetPair
 });
 

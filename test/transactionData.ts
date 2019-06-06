@@ -295,6 +295,7 @@ export const TEST_DATA: Array<ITestData> = [
                 timestamp: 1555398380418,
                 expiration: 1555398380418 + 1000 * 60 * 60 * 24,
                 matcherFee: '10000',
+                matcherFeeAssetId: WAVES_ASSET.id,
                 senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
                 proofs: ['EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c']
             },
@@ -311,6 +312,7 @@ export const TEST_DATA: Array<ITestData> = [
                 timestamp: 1555398380418,
                 expiration: 1555398380418 + 1000 * 60 * 60 * 24,
                 matcherFee: '10000',
+                matcherFeeAssetId: WAVES_ASSET.id,
                 senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
                 proofs: ['EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c']
             },
