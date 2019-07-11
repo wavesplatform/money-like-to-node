@@ -542,6 +542,60 @@ export const TEST_DATA: Array<ITestData> = [
             fee: '10000'
         }
     },
+    {
+        gui: {
+            type: TYPES.INVOKE_SCRIPT,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            dApp: 'test',
+            chainId: 87,
+            fee: new Money(100, WAVES_ASSET)
+        },
+        node: {
+            type: TYPES.INVOKE_SCRIPT,
+            version: 1,
+            dApp: 'test',
+            call: null,
+            payment: null,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            chainId: 87,
+            fee: '100',
+            feeAssetId: WAVES_ASSET.id
+        }
+    },
+    {
+        gui: {
+            type: TYPES.INVOKE_SCRIPT,
+            version: 1,
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            dApp: 'test',
+            call: {
+                function: 'default',
+                args: []
+            },
+            payment: [new Money(100, WAVES_ASSET)],
+            chainId: 87,
+            fee: new Money(100, WAVES_ASSET)
+        },
+        node: {
+            type: TYPES.INVOKE_SCRIPT,
+            version: 1,
+            dApp: 'test',
+            call: {
+                function: 'default',
+                args: []
+            },
+            payment: [{ amount: '100', assetId: WAVES_ASSET.id }],
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            chainId: 87,
+            fee: '100',
+            feeAssetId: WAVES_ASSET.id
+        }
+    },
 ];
 
 interface ITestData {
