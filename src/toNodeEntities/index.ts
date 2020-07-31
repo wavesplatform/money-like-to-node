@@ -11,6 +11,7 @@ import { setAssetScript, IWavesGuiSetAssetScript } from './setAssetScript';
 import { setScript, IWavesGuiSetScript } from './setScript';
 import { sponsorship, IWavesGuiSponsorship } from './sponsorship';
 import { transfer, IWavesGuiTransfer } from './transfer';
+import { updateAssetInfo, IWavesGuiUpdateAssetInfo } from './updateAssetInfo';
 import { IExchangeTransactionOrderWithProofs, TTransaction, TTransactionMap } from '@waves/ts-types';
 import { TYPES } from '../constants';
 import { TWithPartialFee } from '../types';
@@ -40,6 +41,7 @@ export {
     IWavesGuiSetScript,
     IWavesGuiSponsorship,
     IWavesGuiTransfer,
+    IWavesGuiUpdateAssetInfo
 };
 
 export function toNode(item: IWavesGuiExchangeOrder): IExchangeTransactionOrderWithProofs<string>;
@@ -79,6 +81,8 @@ export function toNode(item: TWavesGuiEntity | IWavesGuiExchangeOrder): TWithPar
             return setAssetScript(item);
         case TYPES.INVOKE_SCRIPT:
             return invokeScript(item);
+        case TYPES.UPDATE_ASSET_INFO:
+            return updateAssetInfo(item);
         default:
             throw new Error('Unknown transaction type!');
     }
@@ -98,4 +102,5 @@ export type TWavesGuiEntity = IWavesGuiAlias
     | IWavesGuiSetScript
     | IWavesGuiSponsorship
     | IWavesGuiTransfer
-    | IWavesGuiInvokeScript;
+    | IWavesGuiInvokeScript
+    | IWavesGuiUpdateAssetInfo;

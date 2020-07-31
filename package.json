@@ -12,9 +12,9 @@
   "scripts": {
     "test": "jest",
     "compile": "tsc -p ./",
-    "prepare": "npm run compile",
-    "postversion": "npm publish",
-    "prepublish": "npm run test",
+    "prepare": "npm run compile",	
+    "postversion": "npm publish",	
+    "prepublish": "npm run test",	
     "postpublish": "git push"
   },
   "devDependencies": {

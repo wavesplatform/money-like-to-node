@@ -18,7 +18,8 @@ import {
     IMassTransferItem,
     TDataTransactionEntry,
     IInvokeScriptCall,
-    IInvokeScriptTransaction, IInvokeScriptPayment, TInvokeScriptCallArgument
+    IInvokeScriptTransaction, IInvokeScriptPayment, TInvokeScriptCallArgument,
+    IUpdateAssetInfoTransaction
 } from '@waves/ts-types';
 import { TYPES } from '../constants';
 import { isOrder, map } from '../utils';
@@ -39,6 +40,7 @@ type TConvertMap<TO, T extends TTransaction<any>> = {
     [TYPES.SPONSORSHIP]: TReplaceParam<T, 'fee' | 'minSponsoredAssetFee', TO>;
     [TYPES.SET_ASSET_SCRIPT]: TReplaceParam<T, 'fee', TO>;
     [TYPES.INVOKE_SCRIPT]: TReplaceParam<TReplaceParam<TReplaceParam<T, 'fee', TO>, 'payment', Array<IInvokeScriptPayment<TO>>>, 'call', IInvokeScriptCall<TO>>;
+    [TYPES.UPDATE_ASSET_INFO]: TReplaceParam<T, 'fee', TO>;
 }
 
 type TReplaceParam<T, KEYS, NEW_VALUE> = {
@@ -104,7 +106,10 @@ export const data = <FROM, TO, TX extends IDataTransaction<FROM>>(tx: TX, factor
     data: tx.data.map(item => {
         switch (item.type) {
             case 'integer':
-                return { ...item, value: factory(item.value) };
+                return { 
+                    ...item,
+                    value: item.value ? factory(item.value) : item.value
+                };
             default:
                 return item;
         }
@@ -128,6 +133,10 @@ export const invokeScript = <FROM, TO, TX extends IInvokeScriptTransaction<FROM>
             value: item.type === 'integer' ? factory(item.value) : item.value
         } as TInvokeScriptCallArgument<TO>))
     }
+});
+
+export const updateAssetInfo = <FROM, TO, TX extends IUpdateAssetInfoTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
+    ...defaultConvert(tx, factory)
 });
 
 export const setAssetScript = <FROM, TO, TX extends ISetAssetScriptTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => defaultConvert(tx, factory);
@@ -169,6 +178,8 @@ export function convert<FROM, TO>(tx: TTransaction<FROM> | IExchangeTransactionO
             return setAssetScript(tx, factory);
         case TYPES.INVOKE_SCRIPT:
             return invokeScript(tx, factory);
+        case TYPES.UPDATE_ASSET_INFO:
+            return updateAssetInfo(tx, factory);
         default:
             throw new Error('Unknown transaction type!');
     }

@@ -444,6 +444,13 @@ export const TEST_DATA: Array<ITestData> = [
                     key: 'binary',
                     type: 'binary',
                     value: 'dfasdr2323rcewvfa'
+                },
+                {
+                    key: 'test',
+                },
+                {
+                    key: 'test2',
+                    value: null
                 }
             ],
             fee: '10000'
@@ -473,6 +480,13 @@ export const TEST_DATA: Array<ITestData> = [
                     key: 'binary',
                     type: 'binary',
                     value: 'dfasdr2323rcewvfa'
+                },
+                {
+                    key: 'test',
+                },
+                {
+                    key: 'test2',
+                    value: null
                 }
             ],
             fee: '10000'
@@ -596,6 +610,29 @@ export const TEST_DATA: Array<ITestData> = [
             feeAssetId: WAVES_ASSET.id
         }
     },
+    {
+        gui: {
+            version: 1,
+            type: TYPES.UPDATE_ASSET_INFO,
+            assetId: 'yrdwwJJqTKoCt63krHFVZxJvNbUPgHcDeuJXPEGsJCx',
+            name: 'foo',
+            description: 'bar',
+            fee: new Money(100000, WAVES_ASSET),
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+            chainId: 87,
+        },
+        node: {
+            version: 1,
+            type: TYPES.UPDATE_ASSET_INFO,
+            assetId: 'yrdwwJJqTKoCt63krHFVZxJvNbUPgHcDeuJXPEGsJCx',
+            name: 'foo',
+            description: 'bar',
+            fee: '100000',
+            senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
+            timestamp: 1555398380418,
+        }
+    } as ITestData,
 ];
 
 interface ITestData {

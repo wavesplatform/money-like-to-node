@@ -2,7 +2,6 @@ import { head, getCoins, getAssetId, curry } from '../src/utils';
 import { Money, BigNumber } from '@waves/data-entities';
 import { WAVES_ASSET } from './transactionData';
 
-
 describe('Utils test', () => {
 
     it('head', () => {
