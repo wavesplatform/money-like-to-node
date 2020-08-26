@@ -65,7 +65,7 @@ export const reissue = <FROM, TO, TX extends IReissueTransaction<FROM>>(tx: TX, 
 
 export const burn = <FROM, TO, TX extends IBurnTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory),
-    quantity: factory(tx.quantity)
+    amount: tx.amount ? factory(tx.amount) : factory(tx.quantity as FROM)
 });
 
 export const order = <FROM, TO, O extends IExchangeTransactionOrderWithProofs<FROM>>(data: O, factory: IFactory<FROM, TO>): TReplaceParam<O, 'price' | 'amount' | 'matcherFee', TO> => ({
