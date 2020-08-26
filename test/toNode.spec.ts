@@ -39,7 +39,7 @@ describe('From Waves entity to node', () => {
                 }).result;
 
         const txName: keyof typeof node = (<any>Object).entries(TYPES)
-            .reduce((result, [key, type]: [string, TTransactionType]): string => {
+            .reduce((result: any, [key, type]: [string, TTransactionType]): string => {
                 return result ? result : type === item.gui.type ? toCamelCase(key) : result;
             }, '') as any;
 
