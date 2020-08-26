@@ -28,7 +28,7 @@ type TConvertMap<TO, T extends TTransaction<any>> = {
     [TYPES.ISSUE]: TReplaceParam<T, 'fee' | 'quantity', TO>;
     [TYPES.TRANSFER]: TReplaceParam<T, 'fee' | 'amount', TO>;
     [TYPES.REISSUE]: TReplaceParam<T, 'fee' | 'quantity', TO>;
-    [TYPES.BURN]: TReplaceParam<T, 'fee' | 'amount', TO>;
+    [TYPES.BURN]: TReplaceParam<T, 'fee' | 'amount' | 'quantity', TO>;
     [TYPES.EXCHANGE]: TReplaceParam<T, 'fee' | 'buyOrder' | 'sellOrder' | 'amount' | 'price' | 'sellMatcherFee' | 'buyMatcherFee', TO>;
     [TYPES.LEASE]: TReplaceParam<T, 'fee' | 'amount', TO>;
     [TYPES.CANCEL_LEASE]: TReplaceParam<T, 'fee', TO>;
@@ -66,7 +66,8 @@ export const reissue = <FROM, TO, TX extends IReissueTransaction<FROM>>(tx: TX, 
 
 export const burn = <FROM, TO, TX extends IBurnTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory),
-    amount: tx.amount ? factory(tx.amount) : factory(tx.quantity as FROM)
+    amount: tx.amount ? factory(tx.amount) : factory(tx.quantity as FROM),
+    quantity: tx.amount ? factory(tx.amount) : factory(tx.quantity as FROM)
 });
 
 export const order = <FROM, TO, O extends IExchangeTransactionOrderWithProofs<FROM>>(data: O, factory: IFactory<FROM, TO>): TReplaceParam<O, 'price' | 'amount' | 'matcherFee', TO> => ({
@@ -152,7 +153,7 @@ export function convert<FROM, TO>(tx: TTransaction<FROM> | IExchangeTransactionO
         case TYPES.REISSUE:
             return reissue(tx, factory);
         case TYPES.BURN:
-            return burn(tx, factory) as any;
+            return burn(tx, factory);
         case TYPES.EXCHANGE:
             return exchange(tx, factory);
         case TYPES.LEASE:
