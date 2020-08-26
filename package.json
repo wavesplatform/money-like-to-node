@@ -1,6 +1,6 @@
 {
   "name": "@waves/money-like-to-node",
-  "version": "0.0.7",
+  "version": "0.0.8-0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
