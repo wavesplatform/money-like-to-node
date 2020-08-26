@@ -123,15 +123,13 @@ export const sponsorship = <FROM, TO, TX extends ISponsorshipTransaction<FROM>>(
 export const invokeScript = <FROM, TO, TX extends IInvokeScriptTransaction<FROM>>(
     tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory),
-    payment: tx.payment ? tx.payment.map(item => ({ ...item, amount: factory(item.amount) })) : [],
+    payment: tx.payment && tx.payment.map(item => ({ ...item, amount: factory(item.amount) })),
     call: {
         ...tx.call,
-        args: tx.call ?
-            tx.call.args.map(item => ({
-                ...item,
-                value: item.type === 'integer' ? factory(item.value) : item.value
-            } as TInvokeScriptCallArgument<TO>)) :
-            []
+        args: tx.call && tx.call.args.map(item => ({
+            ...item,
+            value: item.type === 'integer' ? factory(item.value) : item.value
+        } as TInvokeScriptCallArgument<TO>))
     }
 });
 
