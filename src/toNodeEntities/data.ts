@@ -6,7 +6,7 @@ import { getDefaultTransform, IDefaultGuiTx } from './general';
 import { getCoins, map, pipe, prop } from '../utils';
 
 
-const parseValueByType = (item: TWavesGuiDataTransactionEntry): TDataTransactionEntry<string>['value'] => {
+const parseValueByType = (item: TWavesGuiDataTransactionEntry): TDataTransactionEntry<string>['value'] | null => {
     switch (item.type) {
         case DATA_FIELD_TYPE.BINARY:
         case DATA_FIELD_TYPE.STRING:
@@ -38,28 +38,36 @@ type TWavesGuiDataTransactionEntry =
     IWavesGuiDataTransactionEntryInteger |
     IWavesGuiDataTransactionEntryBoolean |
     IWavesGuiDataTransactionEntryString |
-    IWavesGuiDataTransactionEntryBinary;
+    IWavesGuiDataTransactionEntryBinary |
+    IWavesGuiDataTransactionEntryEmpty;
 
 interface IWavesGuiDataTransactionEntryInteger {
     key: string;
-    type?: typeof DATA_FIELD_TYPE.INTEGER | null;
-    value: TLong | null;
+    type: typeof DATA_FIELD_TYPE.INTEGER;
+    value: TLong;
 }
 
 interface IWavesGuiDataTransactionEntryBoolean {
     key: string;
-    type?: typeof DATA_FIELD_TYPE.BOOLEAN | null;
+    type: typeof DATA_FIELD_TYPE.BOOLEAN;
     value: boolean | null;
 }
 
 interface IWavesGuiDataTransactionEntryString {
     key: string;
-    type?: typeof DATA_FIELD_TYPE.STRING | null;
-    value: string | null;
+    type?: typeof DATA_FIELD_TYPE.STRING;
+    value: string;
 }
 
 interface IWavesGuiDataTransactionEntryBinary {
     key: string;
-    type?: typeof DATA_FIELD_TYPE.BINARY | null;
-    value: string | null;
+    type?: typeof DATA_FIELD_TYPE.BINARY;
+    value: string;
+}
+
+
+interface IWavesGuiDataTransactionEntryEmpty {
+    key: string;
+    type?: undefined;
+    value: null|undefined;
 }

@@ -6,8 +6,9 @@ import { requiredValidator, validate } from '../validators';
 
 const processTimestamp = (timestamp: number | undefined): number => timestamp || Date.now();
 
+type TTx<A, B  extends TTransactionType> = { chainId?: number|undefined } & ITransaction<A, B>;
 
-export const getDefaultTransform = <TYPE extends TTransactionType, T extends IDefaultGuiTx<TYPE>>(): { [Key in keyof ITransaction<string, TYPE>]: (data: T) => ITransaction<string, TYPE>[Key] } => ({
+export const getDefaultTransform = <TYPE extends TTransactionType, T extends IDefaultGuiTx<TYPE>>(): { [Key in keyof TTx<string, TYPE>]: (data: T) => TTx<string, TYPE>[Key] } => ({
     type: pipe(
         prop('type'),
         validate(requiredValidator('type'))
@@ -28,7 +29,8 @@ export const getDefaultTransform = <TYPE extends TTransactionType, T extends IDe
         prop('fee'),
         getCoins,
         validate(requiredValidator('fee'))
-    )
+    ),
+    chainId: prop('chainId')
 });
 
 export interface IDefaultGuiTx<TYPE> {
@@ -37,4 +39,5 @@ export interface IDefaultGuiTx<TYPE> {
     senderPublicKey: string;
     timestamp?: number;
     fee: TLong | TMoney;
+    chainId?: number|undefined;
 }

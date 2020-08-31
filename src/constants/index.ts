@@ -1,7 +1,7 @@
 import { TRANSACTION_TYPE } from '@waves/ts-types';
 
 
-export const TYPES: typeof TRANSACTION_TYPE = {
+export const TYPES: typeof TRANSACTION_TYPE & { UPDATE_ASSET_INFO?: 17 } = {
     GENESIS: 1 as 1,
     PAYMENT: 2 as 2,
     ISSUE: 3 as 3,
