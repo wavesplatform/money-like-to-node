@@ -28,7 +28,7 @@ type TConvertMap<TO, T extends TTransaction<any>> = {
     [TYPES.ISSUE]: TReplaceParam<T, 'fee' | 'quantity', TO>;
     [TYPES.TRANSFER]: TReplaceParam<T, 'fee' | 'amount', TO>;
     [TYPES.REISSUE]: TReplaceParam<T, 'fee' | 'quantity', TO>;
-    [TYPES.BURN]: TReplaceParam<T, 'fee' | 'quantity', TO>;
+    [TYPES.BURN]: TReplaceParam<T, 'fee' | 'amount' | 'quantity', TO>;
     [TYPES.EXCHANGE]: TReplaceParam<T, 'fee' | 'buyOrder' | 'sellOrder' | 'amount' | 'price' | 'sellMatcherFee' | 'buyMatcherFee', TO>;
     [TYPES.LEASE]: TReplaceParam<T, 'fee' | 'amount', TO>;
     [TYPES.CANCEL_LEASE]: TReplaceParam<T, 'fee', TO>;
@@ -39,6 +39,7 @@ type TConvertMap<TO, T extends TTransaction<any>> = {
     [TYPES.SPONSORSHIP]: TReplaceParam<T, 'fee' | 'minSponsoredAssetFee', TO>;
     [TYPES.SET_ASSET_SCRIPT]: TReplaceParam<T, 'fee', TO>;
     [TYPES.INVOKE_SCRIPT]: TReplaceParam<TReplaceParam<TReplaceParam<T, 'fee', TO>, 'payment', Array<IInvokeScriptPayment<TO>>>, 'call', IInvokeScriptCall<TO>>;
+    [TYPES.UPDATE_ASSET_INFO]: any
 }
 
 type TReplaceParam<T, KEYS, NEW_VALUE> = {
@@ -65,7 +66,8 @@ export const reissue = <FROM, TO, TX extends IReissueTransaction<FROM>>(tx: TX, 
 
 export const burn = <FROM, TO, TX extends IBurnTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory),
-    quantity: factory(tx.quantity)
+    amount: tx.amount ? factory(tx.amount) : factory(tx.quantity as FROM),
+    quantity: tx.amount ? factory(tx.amount) : factory(tx.quantity as FROM)
 });
 
 export const order = <FROM, TO, O extends IExchangeTransactionOrderWithProofs<FROM>>(data: O, factory: IFactory<FROM, TO>): TReplaceParam<O, 'price' | 'amount' | 'matcherFee', TO> => ({
@@ -104,7 +106,7 @@ export const data = <FROM, TO, TX extends IDataTransaction<FROM>>(tx: TX, factor
     data: tx.data.map(item => {
         switch (item.type) {
             case 'integer':
-                return { ...item, value: factory(item.value) };
+                return item.value ? { ...item, value: factory(item.value) } : item;
             default:
                 return item;
         }
@@ -118,12 +120,13 @@ export const sponsorship = <FROM, TO, TX extends ISponsorshipTransaction<FROM>>(
     minSponsoredAssetFee: factory(tx.minSponsoredAssetFee)
 });
 
-export const invokeScript = <FROM, TO, TX extends IInvokeScriptTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
+export const invokeScript = <FROM, TO, TX extends IInvokeScriptTransaction<FROM>>(
+    tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory),
-    payment: tx.payment.map(item => ({ ...item, amount: factory(item.amount) })),
+    payment: tx.payment && tx.payment.map(item => ({ ...item, amount: factory(item.amount) })),
     call: {
         ...tx.call,
-        args: tx.call.args.map(item => ({
+        args: tx.call && tx.call.args.map(item => ({
             ...item,
             value: item.type === 'integer' ? factory(item.value) : item.value
         } as TInvokeScriptCallArgument<TO>))
@@ -160,7 +163,7 @@ export function convert<FROM, TO>(tx: TTransaction<FROM> | IExchangeTransactionO
         case TYPES.MASS_TRANSFER:
             return massTransfer(tx, factory);
         case TYPES.DATA:
-            return data(tx, factory);
+            return data(tx, factory) as any;
         case TYPES.SET_SCRIPT:
             return setScript(tx, factory);
         case TYPES.SPONSORSHIP:

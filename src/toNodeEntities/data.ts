@@ -14,6 +14,8 @@ const parseValueByType = (item: TWavesGuiDataTransactionEntry): TDataTransaction
             return item.value;
         case DATA_FIELD_TYPE.INTEGER:
             return getCoins(item.value);
+        default:
+            return null
     }
 };
 
@@ -40,24 +42,24 @@ type TWavesGuiDataTransactionEntry =
 
 interface IWavesGuiDataTransactionEntryInteger {
     key: string;
-    type: typeof DATA_FIELD_TYPE.INTEGER;
-    value: TLong;
+    type?: typeof DATA_FIELD_TYPE.INTEGER | null;
+    value: TLong | null;
 }
 
 interface IWavesGuiDataTransactionEntryBoolean {
     key: string;
-    type: typeof DATA_FIELD_TYPE.BOOLEAN;
-    value: boolean;
+    type?: typeof DATA_FIELD_TYPE.BOOLEAN | null;
+    value: boolean | null;
 }
 
 interface IWavesGuiDataTransactionEntryString {
     key: string;
-    type: typeof DATA_FIELD_TYPE.STRING;
-    value: string;
+    type?: typeof DATA_FIELD_TYPE.STRING | null;
+    value: string | null;
 }
 
 interface IWavesGuiDataTransactionEntryBinary {
     key: string;
-    type: typeof DATA_FIELD_TYPE.BINARY;
-    value: string;
+    type?: typeof DATA_FIELD_TYPE.BINARY | null;
+    value: string | null;
 }

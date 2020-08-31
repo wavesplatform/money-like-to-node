@@ -38,12 +38,12 @@ export const massTransfer = factory<TWavesGuiMassTransfer, TWithPartialFee<IMass
 });
 
 export interface IWavesGuiMassTransferMoney extends IDefaultGuiTx<typeof TYPES.MASS_TRANSFER> {
-    attachment?: string;
+    attachment: string;
     transfers: Array<IWavesGuiMassTransferItem<TMoney>>;
 }
 
 export interface IWavesGuiMassTransferLong extends IDefaultGuiTx<typeof TYPES.MASS_TRANSFER> {
-    attachment?: string;
+    attachment: string;
     assetId: string;
     transfers: Array<IWavesGuiMassTransferItem<TLong>>;
 }
