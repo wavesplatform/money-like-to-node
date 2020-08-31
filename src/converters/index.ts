@@ -24,7 +24,7 @@ import { TYPES } from '../constants';
 import { isOrder, map } from '../utils';
 
 
-type TConvertMap<TO, T extends TTransaction<any>> = {
+type TConvertMap<TO, T extends (TTransaction<any>)> = {
     [TYPES.ISSUE]: TReplaceParam<T, 'fee' | 'quantity', TO>;
     [TYPES.TRANSFER]: TReplaceParam<T, 'fee' | 'amount', TO>;
     [TYPES.REISSUE]: TReplaceParam<T, 'fee' | 'quantity', TO>;
@@ -39,6 +39,7 @@ type TConvertMap<TO, T extends TTransaction<any>> = {
     [TYPES.SPONSORSHIP]: TReplaceParam<T, 'fee' | 'minSponsoredAssetFee', TO>;
     [TYPES.SET_ASSET_SCRIPT]: TReplaceParam<T, 'fee', TO>;
     [TYPES.INVOKE_SCRIPT]: TReplaceParam<TReplaceParam<TReplaceParam<T, 'fee', TO>, 'payment', Array<IInvokeScriptPayment<TO>>>, 'call', IInvokeScriptCall<TO>>;
+    // @ts-ignore
     [TYPES.UPDATE_ASSET_INFO]: any
 }
 
@@ -64,7 +65,7 @@ export const reissue = <FROM, TO, TX extends IReissueTransaction<FROM>>(tx: TX, 
     quantity: factory(tx.quantity)
 });
 
-export const burn = <FROM, TO, TX extends IBurnTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
+export const burn = <FROM, TO, TX extends IBurnTransaction<FROM>&{ amount?: any }>(tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory),
     amount: tx.amount ? factory(tx.amount) : factory(tx.quantity as FROM),
     quantity: tx.amount ? factory(tx.amount) : factory(tx.quantity as FROM)

@@ -1,7 +1,7 @@
 import { TRANSACTION_TYPE } from '@waves/ts-types';
 
 
-export const TYPES: typeof TRANSACTION_TYPE & { UPDATE_ASSET_INFO?: 17 } = {
+export const TYPES: typeof TRANSACTION_TYPE = {
     GENESIS: 1 as 1,
     PAYMENT: 2 as 2,
     ISSUE: 3 as 3,
@@ -18,6 +18,7 @@ export const TYPES: typeof TRANSACTION_TYPE & { UPDATE_ASSET_INFO?: 17 } = {
     SPONSORSHIP: 14 as 14,
     SET_ASSET_SCRIPT: 15 as 15,
     INVOKE_SCRIPT: 16 as 16,
+    // @ts-ignore
     UPDATE_ASSET_INFO: 17 as 17
 };
 
