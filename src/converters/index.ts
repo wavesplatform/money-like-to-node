@@ -13,12 +13,15 @@ import {
     ISponsorshipTransaction,
     ITransaction,
     ITransferTransaction,
-    TTransaction,
     IExchangeTransactionOrderWithProofs,
     IMassTransferItem,
-    TDataTransactionEntry,
+    IUpdateAssetInfoTransaction,
     IInvokeScriptCall,
-    IInvokeScriptTransaction, IInvokeScriptPayment, TInvokeScriptCallArgument
+    IInvokeScriptTransaction,
+    IInvokeScriptPayment,
+    TInvokeScriptCallArgument,
+    TDataTransactionEntry,
+    TTransaction,
 } from '@waves/ts-types';
 import { TYPES } from '../constants';
 import { isOrder, map } from '../utils';
@@ -39,8 +42,7 @@ type TConvertMap<TO, T extends (TTransaction<any>)> = {
     [TYPES.SPONSORSHIP]: TReplaceParam<T, 'fee' | 'minSponsoredAssetFee', TO>;
     [TYPES.SET_ASSET_SCRIPT]: TReplaceParam<T, 'fee', TO>;
     [TYPES.INVOKE_SCRIPT]: TReplaceParam<TReplaceParam<TReplaceParam<T, 'fee', TO>, 'payment', Array<IInvokeScriptPayment<TO>>>, 'call', IInvokeScriptCall<TO>>;
-    // @ts-ignore
-    [TYPES.UPDATE_ASSET_INFO]: any
+    [TYPES.UPDATE_ASSET_INFO]: TReplaceParam<T, 'fee', TO>
 }
 
 type TReplaceParam<T, KEYS, NEW_VALUE> = {
@@ -52,7 +54,8 @@ const defaultConvert = <FROM, TO, T extends ITransaction<any>>(data: T, factory:
 };
 
 export const issue = <FROM, TO, TX extends IIssueTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
-    ...defaultConvert(tx, factory), quantity: factory(tx.quantity)
+    ...defaultConvert(tx, factory),
+    quantity: factory(tx.quantity)
 });
 
 export const transfer = <FROM, TO, TX extends ITransferTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
@@ -134,6 +137,11 @@ export const invokeScript = <FROM, TO, TX extends IInvokeScriptTransaction<FROM>
     }
 });
 
+export const updateAssetInfo = <FROM, TO, TX extends IUpdateAssetInfoTransaction<FROM>>(
+    tx: TX, factory: IFactory<FROM, TO>) => ({
+    ...defaultConvert(tx, factory),
+});
+
 export const setAssetScript = <FROM, TO, TX extends ISetAssetScriptTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => defaultConvert(tx, factory);
 
 export function convert<FROM, TO, TX extends TTransaction<FROM>, TYPE extends TX['type'] = TX['type']>(tx: TX, factory: IFactory<FROM, TO>): TConvertMap<TO, TX>[TYPE];
@@ -173,6 +181,8 @@ export function convert<FROM, TO>(tx: TTransaction<FROM> | IExchangeTransactionO
             return setAssetScript(tx, factory);
         case TYPES.INVOKE_SCRIPT:
             return invokeScript(tx, factory);
+        case TYPES.UPDATE_ASSET_INFO:
+            return updateAssetInfo(tx, factory);
         default:
             throw new Error('Unknown transaction type!');
     }

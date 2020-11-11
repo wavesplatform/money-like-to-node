@@ -18,7 +18,6 @@ export const TYPES: typeof TRANSACTION_TYPE = {
     SPONSORSHIP: 14 as 14,
     SET_ASSET_SCRIPT: 15 as 15,
     INVOKE_SCRIPT: 16 as 16,
-    // @ts-ignore
     UPDATE_ASSET_INFO: 17 as 17
 };
 
