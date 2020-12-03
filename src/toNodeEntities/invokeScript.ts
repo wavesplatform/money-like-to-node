@@ -16,6 +16,8 @@ const defaultNull = () => null;
 const processArgument = (data: TInvokeScriptCallArgument<TLong>): TInvokeScriptCallArgument<string> => {
     if (data.type === 'integer') {
         return { type: data.type, value: getCoins(data.value) };
+    } if (data.type === 'list') {
+        return processArgument(data)
     } else {
         return data;
     }
