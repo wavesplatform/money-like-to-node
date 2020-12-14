@@ -11,7 +11,7 @@ export const issue = factory<IWavesGuiIssue, TWithPartialFee<IIssueTransaction<s
     ...getDefaultTransform(),
     name: prop('name'),
     description: prop('description'),
-    decimals: prop('decimals'),
+    decimals: prop('decimals') || prop('precision'),
     quantity: pipe<IWavesGuiIssue, TLong, string>(prop('quantity'), getCoins),
     reissuable: prop('reissuable'),
     chainId: prop('chainId'),
@@ -22,6 +22,7 @@ export interface IWavesGuiIssue extends IDefaultGuiTx<typeof TYPES.ISSUE> {
     name: string;
     description: string;
     decimals: number;
+    precision: number;
     quantity: TLong;
     reissuable: boolean;
     chainId: number;
