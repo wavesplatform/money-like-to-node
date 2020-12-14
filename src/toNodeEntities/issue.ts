@@ -5,13 +5,11 @@ import { TLong, TWithPartialFee } from '../types';
 import { getDefaultTransform, IDefaultGuiTx } from './general';
 import { getCoins, pipe, prop } from '../utils';
 
-
-
 export const issue = factory<IWavesGuiIssue, TWithPartialFee<IIssueTransaction<string>>>({
     ...getDefaultTransform(),
     name: prop('name'),
     description: prop('description'),
-    decimals: prop('decimals') || prop('precision'),
+    decimals: (data) => prop('decimals', data)  || prop('precision', data) || 0,
     quantity: pipe<IWavesGuiIssue, TLong, string>(prop('quantity'), getCoins),
     reissuable: prop('reissuable'),
     chainId: prop('chainId'),
