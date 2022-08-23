@@ -23,7 +23,11 @@ export const remapOrder = factory<IWavesGuiExchangeOrder, IExchangeTransactionOr
     amount: pipe<IWavesGuiExchangeOrder, TMoney, string>(prop('amount'), getCoins),
     matcherFee: pipe<IWavesGuiExchangeOrder, TMoney, string>(prop('matcherFee'), getCoins),
     matcherFeeAssetId: pipe<IWavesGuiExchangeOrder, TMoney, string>(prop('matcherFee'), getAssetId),
-    assetPair: getAssetPair
+    assetPair: getAssetPair,
+    // @ts-ignore
+    chainId: prop('chainId'), // todo update @waves/ts-types lib
+    // @ts-ignore
+    priceMode: prop('priceMode'),
 });
 
 export const exchange = factory<IWavesGuiExchange, TWithPartialFee<IExchangeTransaction<string>>>({
@@ -56,4 +60,6 @@ export interface IWavesGuiExchangeOrder {
     expiration: number;
     senderPublicKey: string;
     proofs: Array<string>;
+    chainId?: number;
+    priceMode?: 'fixedDecimals' | 'assetDecimals'
 }
