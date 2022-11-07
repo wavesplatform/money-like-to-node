@@ -5,7 +5,7 @@ import { TMoney, TWithPartialFee } from '../types';
 import { getDefaultTransform, IDefaultGuiTx } from './general';
 import { getAssetId, getCoins, ifElse, isZero, pipe, prop } from '../utils';
 
-interface IUpdatedISponsorshipTransaction<LONG> extends Omit<ISponsorshipTransaction<LONG>, 'minSponsoredAssetFee'> {
+export interface IUpdatedISponsorshipTransaction<LONG> extends Omit<ISponsorshipTransaction<LONG>, 'minSponsoredAssetFee'> {
     minSponsoredAssetFee: LONG | null;
 }
 
