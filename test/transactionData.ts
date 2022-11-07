@@ -444,6 +444,10 @@ export const TEST_DATA: Array<ITestData> = [
                     key: 'binary',
                     type: 'binary',
                     value: 'dfasdr2323rcewvfa'
+                },
+                {
+                    key: 'foo',
+                    value: null
                 }
             ],
             fee: '10000'
@@ -586,7 +590,17 @@ export const TEST_DATA: Array<ITestData> = [
             dApp: 'test',
             call: {
                 function: 'default',
-                args: []
+                args: [
+                    {
+                        type: 'list',
+                        value: [
+                            {
+                                type: 'string',
+                                value: 'bar'
+                            }
+                        ]
+                    }
+                ]
             },
             payment: [{ amount: '100', assetId: WAVES_ASSET.id }],
             senderPublicKey: 'EM1XUpKdct1eE2mgmdvr4VA4raXMKvYKumCbnArtcQ9c',
