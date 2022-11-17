@@ -20,8 +20,8 @@
   "devDependencies": {
     "@types/jest": "^24.0.11",
     "@waves/data-entities": "^1.10.1",
-    "jest": "^24.7.1",
-    "ts-jest": "^24.0.2",
+    "jest": "^29.3.1",
+    "ts-jest": "^29.0.3",
     "typescript": "^3.9.10"
   },
   "jest": {
