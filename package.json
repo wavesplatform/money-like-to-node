@@ -1,6 +1,6 @@
 {
   "name": "@waves/money-like-to-node",
-  "version": "0.1.5",
+  "version": "0.1.9",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
@@ -22,7 +22,7 @@
     "@waves/data-entities": "^1.10.1",
     "jest": "^24.7.1",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.4.3"
+    "typescript": "^3.9.10"
   },
   "jest": {
     "collectCoverage": false,

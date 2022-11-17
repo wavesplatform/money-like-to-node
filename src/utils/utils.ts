@@ -81,6 +81,8 @@ export const lte: IComparator = curry((a: number, b: number) => a <= b) as any;
 
 export const gte: IComparator = curry((a: number, b: number) => a >= b) as any;
 
+export const isStopSponsorship = (a: number | string | undefined | null): boolean => isNaN(Number(a)) || !!a && Number(a) === 0;
+
 
 export const head = <T>(list: Array<T>): T | undefined => list[0];
 

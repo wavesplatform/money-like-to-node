@@ -121,7 +121,7 @@ export const setScript = <FROM, TO, TX extends ISetScriptTransaction<FROM>>(tx: 
 
 export const sponsorship = <FROM, TO, TX extends ISponsorshipTransaction<FROM>>(tx: TX, factory: IFactory<FROM, TO>) => ({
     ...defaultConvert(tx, factory),
-    minSponsoredAssetFee: factory(tx.minSponsoredAssetFee)
+    minSponsoredAssetFee: tx.minSponsoredAssetFee !== null ? factory(tx.minSponsoredAssetFee) : null
 });
 
 export const invokeScript = <FROM, TO, TX extends IInvokeScriptTransaction<FROM>>(
@@ -176,7 +176,7 @@ export function convert<FROM, TO>(tx: TTransaction<FROM> | IExchangeTransactionO
         case TYPES.SET_SCRIPT:
             return setScript(tx, factory);
         case TYPES.SPONSORSHIP:
-            return sponsorship(tx, factory);
+            return sponsorship(tx, factory) as ISponsorshipTransaction<TO>;
         case TYPES.SET_ASSET_SCRIPT:
             return setAssetScript(tx, factory);
         case TYPES.INVOKE_SCRIPT:

@@ -12,7 +12,7 @@ import { setScript, IWavesGuiSetScript } from './setScript';
 import { sponsorship, IWavesGuiSponsorship } from './sponsorship';
 import { transfer, IWavesGuiTransfer } from './transfer';
 import {
-    IExchangeTransactionOrderWithProofs,
+    IExchangeTransactionOrderWithProofs, ISponsorshipTransaction,
     TTransaction,
     TTransactionMap
 } from '@waves/ts-types';
@@ -80,7 +80,7 @@ export function toNode(item: TWavesGuiEntity | IWavesGuiExchangeOrder): TWithPar
         case TYPES.SET_SCRIPT:
             return setScript(item);
         case TYPES.SPONSORSHIP:
-            return sponsorship(item);
+            return sponsorship(item) as ISponsorshipTransaction<string>;
         case TYPES.SET_ASSET_SCRIPT:
             return setAssetScript(item);
         case TYPES.INVOKE_SCRIPT:
